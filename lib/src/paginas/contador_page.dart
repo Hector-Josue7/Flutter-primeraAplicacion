@@ -43,17 +43,42 @@ class _ContadorPageState extends State<ContadorPage> {
           ),
           // la mayoria de los widgets solo pueden contener un hijo, o sea un child
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons
-              .add), // buscar iconos en la pagina material icons   https://material.io/tools/icons/?style=baseline
-          //   child: Text('Hola'),
-          onPressed: () {
-            // print('Hola mundo!!!2');
+        // buscar iconos en la pagina material icons   https://material.io/tools/icons/?style=baseline
+        floatingActionButton: _crearBotones());
+  }
 
-            setState(() {
-              _conteo++;
-            }); // se encarga de que el numero cambie al pulsar el boton, redibuja el widget
-          }, // disabled = true, es como que deshabilitemos el boton si lo ponemos null
-        ));
+  Widget _crearBotones() {
+    return Row(
+      // el mainAxisAlignment en un row y una columna no son iguales
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[  // esta propiedad contiene una lista de widgets
+        SizedBox(width: 30.0),
+        FloatingActionButton(
+            onPressed: _reset, child: Icon(Icons.exposure_zero)),
+        Expanded(child: SizedBox()),
+        FloatingActionButton(onPressed: _sustraer, child: Icon(Icons.remove)),
+        SizedBox(width: 5.0),
+        FloatingActionButton(
+            onPressed: _agregar,
+            child: Icon(Icons
+                .add)) // ojo, en este caso se deja el metodo _agregar sin parentesis, porque se va a ejecutar hasta que se presione el boton
+      ],
+    );
+  }
+
+  void _agregar() {
+    setState(() {
+      // el metodo setState solo existe dentro de los StateFullWidgets
+      _conteo++;
+    });
+    // setState( () => _conteo++ );
+  }
+
+  void _sustraer() {
+    setState(() => _conteo--);
+  }
+
+  void _reset() {
+    setState(() => _conteo = 0);
   }
 }
